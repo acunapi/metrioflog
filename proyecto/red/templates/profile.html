@@ -1,0 +1,53 @@
+{% extends 'feed.html' %}
+
+{% block content %}
+
+<!-- Profile -->
+<div class="perfilYseguidores">
+  <div class="profile">
+    <div style="display: flex; align-items: center;">
+      <img src="{{ user.profile.image.url }}" alt="{{user.username}}'s profile picture" class="img-fluid" style="width: 150px; height: 150px; border-radius: 50%; margin-right: 20px;">
+      <div style="display: flex; flex-direction: column;">
+        <h2 style="margin: 0;">@{{user.username}}</h2>
+        {% if request.user.is_authenticated %}
+          {% if user.username != request.user.username %}
+            {% if user not in request.user.profile.following %}
+              <button style="margin-top: 10px; padding: 10px 20px; background-color: green; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                <a class="follow-button" href="{% url 'follow' user %}" style="color: white; text-decoration: none;">Follow</a>
+              </button>
+            {% else %}
+              <button style="margin-top: 10px; padding: 10px 20px; background-color: red; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                <a class="follow-button" href="{% url 'unfollow' user %}" style="color: white; text-decoration: none;">Unfollow</a>
+              </button>
+            {% endif %}
+          {% endif %}
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  
+  <!--Restringir acceso!! #pendiente: consultar a Javi-->
+    <a href="{% url 'upload_profile_image' %}">Subir imagen de perfil</a>
+
+  <!-- Follow items -->
+  <div class="container">
+    <div class="follow" style="text-align: center;">
+      <div style="display: inline-block; margin-right: 100px;">
+        <h5>Post</h5>
+        <p>{{ user.posts.count }}</p>
+      </div>
+      <div style="display: inline-block; margin-right: 100px;">
+        <h5>Followers</h5>
+        <p>{{ user.profile.followers.count }}</p>
+      </div>
+      <div style="display: inline-block;">
+        <h5>Following</h5>
+        <p>{{ user.profile.following.count }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+{{ block.super}}
+{% endblock %}

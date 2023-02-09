@@ -1,0 +1,74 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+
+<!-- Post -->
+
+{% if request.user.is_authenticated %}
+<h6 class="border-bottom pb-2 mb-0">Recent updates</h6>
+    {% for post in posts %}
+        <!-- Contenido -->
+
+        <div class="my-3 p-3 bg-body rounded shadow-sm">
+            <div class="d-flex text-muted pt-3">
+            <img src="{{ post.user.profile.image.url }}" alt="{{ post.user.username }}" class="bd-placeholder-img flex-shrink-0 me-2 rounded" style="width: 32px; height: 32px; border-radius: 10px;">
+            <p class="pb-3 mb-0 lh-sm border-bottom" style="font-size: 20px; color: black;">
+                <strong class="d-block text-gray-dark"><a href="{% url 'profile' post.user.username %}" style="font-size: 14px; text-decoration: none;">@{{ post.user.username }}</a></strong>
+                {{ post.content }}
+                <br><time style="font-size: 12px;">{{ post.timestamp }}</time>
+            </p>
+            </div>
+            {% for c in post.comment_set.all %}
+            <p class="comentario mb-0">&#x1F822; <a href="{% url 'profile' c.user.username %}">@ {{c.user.username}}</a> respondió: <i>{{c.text}}</i> <time class="hora-comentario text-muted">{{c.updated}}</time></p>
+            {% endfor %}
+            {% if post.user == user %}
+                <a href="{% url 'post_edit' post.id %}" class="btn btn-primary">Editar</a>
+            {% endif %} 
+        </div>
+        
+
+
+        <!-- Comentarios -->
+        
+        <form method="POST" action="/comment/">
+            {% csrf_token %}
+            <input type="hidden" value="{{post.id}}" name="post">
+            <div class="form-group mb-2">
+                <textarea name="text" placeholder="Escribe un comentario" class="form-control"></textarea>
+            </div>
+            <button type="submit" class="btn mb-2" style="color: white; background-color: white; border: none;">
+                <i class="bi bi-pen-fill text-warning" style="font-size: 1em;"></i><p class="text-muted mr-2">Comentar</p>
+            </button>
+        </form>
+        
+
+        <form method="POST" action="{% url 'like' %}">
+            {% csrf_token %}
+            <input type="hidden" value="{{post.id}}" name="post">
+            <button type="submit" class="btn mb-2" style="color: white; background-color: white; border: none;">
+                <i class="bi bi-suit-heart-fill text-danger" style="font-size: 1em;"></i><p class="text-muted mr-2">Likes: {{post.total_likes}}</p>
+            </button>
+        </form>
+        <hr>
+        
+        
+
+        
+
+
+    {% endfor %}
+
+{% else %}
+<!--Bienvenida sino estás registrado-->
+
+<div class="jumbotron">
+    <h1 class="display-4">Bienvenido a METRIOFLOG</h1>
+    <p class="lead">Este es un sitio donde podrás escribir posteos, comentar, dar like y seguir otros perfiles.</p>
+    <hr class="my-4">
+    <a class="btn btn-primary btn-lg" href="/login" role="button">Inicia Sesión</a> <a href="/register">Aún no tengo cuenta</a>
+  </div>
+{% endif %}
+
+{% endblock %}
+

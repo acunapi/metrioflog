@@ -1,0 +1,23 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+
+<form class="bg-white  rounded-5 shadow-5-strong p-5" method="POST" action="">
+    <h1>Iniciar Sesión</h1>
+    {% csrf_token %}
+    <!-- Username input -->
+    <div class="form-group my-3">
+        <input type="text" class="form-control" name="username" placeholder="Nombre de usuario">
+    </div>
+    <!-- Password input -->
+    <div class="form-group my-3">
+        <input type="password" class="form-control" name="password" placeholder="Contraseña">
+    </div>
+    <button class="btn btn-primary" type="submit">Iniciar Sesión</button> <a href="/register">Aún no tengo cuenta</a>
+</form>
+
+
+
+
+{% endblock %}
