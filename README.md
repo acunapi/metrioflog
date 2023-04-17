@@ -1,2 +1,2 @@
 # metrioflog
-Mi proyecto es una red social de posteos. Luego de seguir el curso quise continuar el caso que veníamos desarrollando pero intentando mejorarlo de a poco. Mi red social tiene la función de crearte un usuario, escribir un post, publicarlo y editarlo, pero también la función de comentar, dar like y seguir/dejar de seguir a otros usuarios.
+Mon projet est un réseau social de posts réalisés dans le cadre du Python Back-end Bootcamp. Mon réseau social a pour fonction de créer un utilisateur, d'écrire un post, de le publier et de l'éditer, mais aussi de commenter, d'aimer et de suivre/défaire d'autres utilisateurs.
